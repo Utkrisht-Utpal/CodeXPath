@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 6%;
+    --foreground: 210 20% 92%;
+
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 18% 10%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 152 70% 50%;
+    --primary-foreground: 220 20% 6%;
+
+    --secondary: 220 16% 16%;
+    --secondary-foreground: 210 20% 82%;
+
+    --muted: 220 14% 14%;
+    --muted-foreground: 215 12% 50%;
+
+    --accent: 152 70% 50%;
+    --accent-foreground: 220 20% 6%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 14% 18%;
+    --input: 220 14% 18%;
+    --ring: 152 70% 50%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 220 18% 8%;
+    --sidebar-foreground: 210 20% 82%;
+    --sidebar-primary: 152 70% 50%;
+    --sidebar-primary-foreground: 220 20% 6%;
+    --sidebar-accent: 220 14% 14%;
+    --sidebar-accent-foreground: 210 20% 82%;
+    --sidebar-border: 220 14% 18%;
+    --sidebar-ring: 152 70% 50%;
+
+    /* Custom tokens */
+    --glow-primary: 152 70% 50%;
+    --terminal: 152 70% 50%;
+    --terminal-dim: 152 40% 30%;
+    --code-bg: 220 20% 8%;
+    --code-line: 220 14% 12%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.15),
+                0 0 60px hsl(var(--glow-primary) / 0.05);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px hsl(var(--glow-primary) / 0.4),
+                 0 0 40px hsl(var(--glow-primary) / 0.1);
+  }
+
+  .gradient-mesh {
+    background: radial-gradient(ellipse at 20% 50%, hsl(var(--glow-primary) / 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, hsl(var(--glow-primary) / 0.04) 0%, transparent 50%);
+  }
+
+  .border-glow {
+    border-color: hsl(var(--glow-primary) / 0.2);
+  }
+
+  .typing-cursor::after {
+    content: '▋';
+    animation: blink 1s step-end infinite;
+    color: hsl(var(--terminal));
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .code-line-number {
+    color: hsl(var(--muted-foreground));
+    user-select: none;
+  }
+}
