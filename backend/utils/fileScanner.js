@@ -22,7 +22,6 @@ const scanFiles = async (rootDir) => {
             }
         }
     }
-
     return files;
 };
 

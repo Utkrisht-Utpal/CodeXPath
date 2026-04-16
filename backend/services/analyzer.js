@@ -9,6 +9,7 @@ const { detectEntryPoint } = require("./entryDetector");
 const { detectArchitecture } = require("./architectureDetector");
 const { detectCoreFiles } = require("./coreFileDetector");
 const { generateLearningPath } = require("./learningPathGenerator");
+const { buildDependencyGraph } = require("./dependencyGraphBuilder");
 
 const createTempDir = () => {
   return path.join(__dirname, "..", `temp-repo-${Date.now()}`);
@@ -41,49 +42,52 @@ const analyzeRepository = async (repoUrl) => {
   const tempDir = createTempDir();
 
   try {
-    // Clone repository
+    // shallow clone, fast
     await simpleGit().clone(repoUrl.trim(), tempDir, ["--depth", "1"]);
 
-    // Scan all files once
+    // one scan, reuse everywhere
     const files = await scanFiles(tempDir);
 
-    //  Detect frameworks
+    // frameworks
     const frameworks = await detectFrameworks(tempDir, files);
 
-    // Technology breakdown
+    // file types by count
     const technologies = buildTechnologyBreakdown(files);
 
-    // Architecture detection
+    // MVC / layered / etc.
     const architecture = detectArchitecture(
       files,
       tempDir,
       frameworks
     );
 
-    // Core file detection
+    // key files worth reading first
     const coreFiles = detectCoreFiles(
       files,
       tempDir,
       frameworks
     );
 
-    // Learning roadmap generation
+    // what to learn and in what order
     const learningPath = generateLearningPath({
       frameworks,
       architecture,
       technologies,
     });
 
-    // Language detection
+    // dominant language by file count
     const language = detectLanguage(files);
 
-    // Entry point detection
+    // where execution starts
     const entryPoint = await detectEntryPoint(
       language,
       files,
       tempDir,
       frameworks
     );
+
+    // file → import edges
+    const dependencyGraph = await buildDependencyGraph(files, tempDir);
 
     const primaryTechnology =
       technologies[0]?.technology || "Unknown";
@@ -99,6 +103,7 @@ const analyzeRepository = async (repoUrl) => {
       coreFiles,
       architecture,
       learningPath,
+      dependencyGraph,
     };
   } finally {
     try {
