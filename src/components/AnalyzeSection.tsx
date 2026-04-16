@@ -33,7 +33,8 @@ const AnalyzeSection = () => {
     }, 1800);
 
     try {
-      const response = await fetch("http://localhost:5000/analyze", {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+      const response = await fetch(`${backendUrl}/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ repoUrl }),
@@ -170,7 +171,7 @@ const AnalyzeSection = () => {
                     {loadingSteps[loadingStep]}
                   </motion.p>
                 </AnimatePresence>
-                <p className="text-xs text-muted-foreground mt-1 font-mono">This may take 20–60 seconds</p>
+                <p className="text-xs text-muted-foreground mt-1 font-mono">This may take 02-05 seconds</p>
               </div>
 
               {/* Steps list */}

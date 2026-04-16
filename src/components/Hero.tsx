@@ -157,7 +157,7 @@ const Hero = () => {
                 {/* Stat 1: Files Analyzed (live counter) */}
                 <div>
                   <p className="text-2xl font-bold text-primary font-mono">
-                    {filesAnalyzed > 0 ? displayCount.toLocaleString() : "80+"}
+                    {filesAnalyzed > 0 ? `${displayCount.toLocaleString()}+` : "50+"}
                   </p>
                   <p className="text-xs text-muted-foreground mt-0.5">Files analyzed</p>
                 </div>

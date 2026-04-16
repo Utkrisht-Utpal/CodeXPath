@@ -3,9 +3,9 @@ const cors = require("cors");
 const { analyzeRepository } = require("./services/analyzer");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors()); // Allows all origins. For strict security, specify `origin: "https://yourfrontend.vercel.app"`
 app.use(express.json());
 
 app.post("/analyze", async (req, res) => {
